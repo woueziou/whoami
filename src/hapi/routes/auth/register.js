@@ -16,7 +16,13 @@ const register = {
         handler: async (request, h) => {
             const data = request.payload;
             try {
-                const token = await AuthService.register(data);
+                const user = {
+                    full_name: `${data.first_name} ${data.last_name}`,
+                    phone: data.phone,
+                    username: data.username,
+                    password:data.password
+                };
+                const token = await AuthService.register(user);
                 return token;
             } catch (error) {
                 return Boom.conflict('user exists');

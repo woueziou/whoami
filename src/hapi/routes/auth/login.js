@@ -25,7 +25,7 @@ const login = {
         },
         validate: {
             payload: Joi.object({
-                phone: Joi.string(),
+                username: Joi.string(),
                 password: Joi.string(),
             }).label('LoginModel')
         }

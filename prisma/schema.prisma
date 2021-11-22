@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model credentials {
+  id         Int     @id @default(autoincrement()) @db.UnsignedInt
+  created_at Int
+  username   String  @unique(map: "credentials_username") @db.VarChar(255)
+  password   String  @db.VarChar(255)
+  status     Boolean @default(true)
+  user_id    String  @db.VarChar(36)
+  user       user    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "credentials_user")
+
+  @@index([user_id], map: "credentials_user")
+}
+
+model user {
+  id          String        @id @db.VarChar(36)
+  created_at  Int
+  full_name   String        @db.VarChar(255)
+  phone       String        @db.VarChar(255)
+  status      Boolean       @default(true)
+  credentials credentials[]
+  employee    employee[]
+}
+
+model employee {
+  id         String  @id @db.VarChar(36)
+  first_name String  @db.VarChar(36)
+  last_name  String  @db.VarChar(36)
+  id_card    String  @db.VarChar(36)
+  created_at Int     @default(0)
+  status     Boolean @default(false)
+  added_by   String  @db.VarChar(36)
+  user       user    @relation(fields: [added_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "employee_user")
+
+  @@index([added_by], map: "employee_user")
+}

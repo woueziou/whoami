@@ -10,36 +10,36 @@ const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const HapiSwagger = require('hapi-swagger');
 const AuthBearer = require('hapi-auth-bearer-token');
-const Pack = require('../../package.json');
 const {
     BASE_DIR
 } = require('../../server-config');
-const swaggerOptions = {
-    schemes: ['http', 'https'],
-    info: {
-        title: `${process.env.BOT_NAME} Server api doc`,
-        version: Pack.version,
-        contact: {
-            name: 'Taas Ekpaye',
-            email: 'taasekpaye@outlook.fr',
-        }
-    },
-    security: [{
-        api_key: {
-            type: 'apiKey', // apiKey is defined by the Swagger spec
-            name: 'Authorization', // the name of the query parameter / header
-            in: 'header'
-        }
-    }],
-    securityDefinitions: {
-        api_key: {
-            type: 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        },
-    },
-    grouping: 'tags'
-};
+const { swaggerOptions } = require('./config');
+// const swaggerOptions = {
+//     schemes: ['http', 'https'],
+//     info: {
+//         title: `${process.env.BOT_NAME} Server api doc`,
+//         version: Pack.version,
+//         contact: {
+//             name: 'Taas Ekpaye',
+//             email: 'taasekpaye@outlook.fr',
+//         }
+//     },
+//     security: [{
+//         api_key: {
+//             type: 'apiKey', // apiKey is defined by the Swagger spec
+//             name: 'Authorization', // the name of the query parameter / header
+//             in: 'header'
+//         }
+//     }],
+//     securityDefinitions: {
+//         api_key: {
+//             type: 'apiKey',
+//             'name': 'Authorization',
+//             'in': 'header'
+//         },
+//     },
+//     grouping: 'tags'
+// };
 const HapiServer = {
     // var expServer;
     async start() {
@@ -63,7 +63,7 @@ const HapiServer = {
         await server.register({
             plugin: require('hapijs-status-monitor'),
             options: {
-                title: 'Ervin Status Monitor'
+                title: `${process.env.APP_NAME} monitor`
             }
         });
 
